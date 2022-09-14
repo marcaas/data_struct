@@ -224,11 +224,11 @@ bool SqList_T6(SqList &L)
 // 7.将两个有序顺序表合并为一个新的有序顺序表,并由函数返回结果顺序表
 bool SqList_T7(SqList A, SqList B, SqList &C)
 {
-    int i = 0;      // 数组A的游标
-    int j = 0;      // 数组B的游标
-    C.length = 0;   // 清空数组C
+    int i = 0;    // 数组A的游标
+    int j = 0;    // 数组B的游标
+    C.length = 0; // 清空数组C
     // 用k作为数组C的游标向C中放入元素
-    for(int k = 0; k < A.length + B.length; k++)
+    for (int k = 0; k < A.length + B.length; k++)
     {
         // 比较数组A与数组B的第一个元素，把更小的那个放入C的末尾
         if (A.data[i] < B.data[j])
@@ -270,7 +270,7 @@ bool SqList_T8(SqList &L, int m, int n)
 // 9.线性表(a1, a2, a3, ... , an)中元素递增有序且按照顺序存储于计算机内.设计一个算法,完成最少时间在表中查找数值为x的元素,若找到,则将其与后继元素位置相交换,若找不到,则将其插入表中,并使表中元素仍递增有序.
 // bool SqList_T9(SqList &L, int x)
 // {
-    
+
 // }
 
 // 【2010统考真题】10.设将n(n > 1)个整数存放到一维数组R中,设计一个在时间和空间两方面尽可能高效的算法.将R中保存的序列循环左移p(0 < p < n),即将R中的数据由(X0, X1, X2, ... ,Xn-1)变换为(Xp, Xp+1, ... , Xn-1, X1, ... , Xp-1).要求:
@@ -353,7 +353,7 @@ int T11(int A[], int B[], int n)
             }
         }
     }
-    return A[s1] < B[s2]? A[s1]:B[s2];
+    return A[s1] < B[s2] ? A[s1] : B[s2];
 }
 
 // 测试
