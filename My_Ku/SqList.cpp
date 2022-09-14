@@ -2,7 +2,7 @@
 using namespace std;
 
 // 线性表顺序存储静态分配
-#define MAXSIZE 50 // 数组最大容量
+#define MAXSIZE 10 // 数组最大容量
 struct SqList
 {
     int data[MAXSIZE]; // 顺序表的元素
@@ -268,29 +268,109 @@ bool SqList_T8(SqList &L, int m, int n)
 }
 
 // 9.线性表(a1, a2, a3, ... , an)中元素递增有序且按照顺序存储于计算机内.设计一个算法,完成最少时间在表中查找数值为x的元素,若找到,则将其与后继元素位置相交换,若找不到,则将其插入表中,并使表中元素仍递增有序.
-bool SqList_T9(SqList &L, int x)
-{
+// bool SqList_T9(SqList &L, int x)
+// {
     
+// }
+
+// 【2010统考真题】10.设将n(n > 1)个整数存放到一维数组R中,设计一个在时间和空间两方面尽可能高效的算法.将R中保存的序列循环左移p(0 < p < n),即将R中的数据由(X0, X1, X2, ... ,Xn-1)变换为(Xp, Xp+1, ... , Xn-1, X1, ... , Xp-1).要求:
+// 1)给出算法的基本设计思想.
+// 2)根据设计思想,采用C或C++或Java语言描述算法,关键之处给出注释.
+// 3)说明你所设计算法的时间复杂度和空间复杂度.
+// 解：
+// 1)设计思想：可以将该问题看成把数组ab变为数组ba，可以使用逆置函数，先将a数组逆置得到a^(-1)b，再将b数组逆置得到a^(-1)b^(-1)，最后将整个数组逆置得到ba。
+// 2)
+// 逆置函数
+bool reverse(SqList &L, int a, int b)
+{
+    int d;
+    for (int i = 0; i < (b - a + 1) / 2; i++)
+    {
+        d = L.data[a - 1 + i];
+        L.data[a - 1 + i] = L.data[b - 1 - i];
+        L.data[b - 1 - i] = d;
+    }
+    return true;
+}
+bool T10(SqList &L, int p)
+{
+    reverse(L, 1, p);
+    reverse(L, p + 1, L.length);
+    reverse(L, 1, L.length);
+    return true;
+}
+// 3)时间复杂度：O(n)
+//   空间复杂度：O(1)
+
+// 【2011统考真题】一个长度为L(L >= 1)的升序序列S，现有两个等长升序序列A和B，试设计一个在时间和空间两方面都尽可能高效的算法，找出两个序列A和B的中位数，要求：
+// 给出算法的基本设计思想。
+// 根据设计思想，采用C和C++或Java语言描述算法，关键之处给出注释。
+// 说明你所设计算法的时间复杂度和空间复杂度。
+
+// 解：
+// 1)初步想法：将A和B每个元素一次比较，将较小的放到一个新数组中，进而得到一个长度为AB长度之和的升序新数组C，直接取中间元素即可
+//   答案方法：分别求两个升序序列A、B的中位数，设为a和b，求序列A、B的中位数过程如下：
+// ① 若a = b，则a或b即为所求中位数，算法结束。
+// ② 若a < b，则舍弃序列A中较小的一半，同时舍弃B中较大的一半，要求两次舍弃的长度相等。
+// ③ 若a < b，则舍弃序列A中较大的一半，同时舍弃B中较小的一半，要求两次舍弃的长度相等。
+// 在保留的两个升序序列中，重复上述过程，知道两个序列中均只有一个元素时停止，较小的那个为中位数
+int T11(int A[], int B[], int n)
+{
+    int s1 = 0, d1 = n - 1, m1, s2 = 0, d2 = n - 1, m2;
+    // 分别表示序列A和B的首位数、末位数和中位数
+    while (s1 != d1 || s2 != d2)
+    {
+        m1 = (s1 + d1) / 2;
+        m2 = (s2 + d2) / 2;
+        if (A[m1] == A[m2])
+        {
+            return A[m1];
+        }
+        if (A[m1] < A[m2])
+        {
+            if ((s1 + d1) % 2 == 0)
+            {
+                s1 = m1;
+                d2 = m2;
+            }
+            else
+            {
+                s1 = m1 + 1;
+                d2 = m2;
+            }
+        }
+        else
+        {
+            if ((s2 + d2) % 2 == 0)
+            {
+                d1 = m1;
+                s2 = m2;
+            }
+            else
+            {
+                d1 = m1;
+                s2 = m2 + 1;
+            }
+        }
+    }
+    return A[s1] < B[s2]? A[s1]:B[s2];
 }
 
 // 测试
 int main()
 {
     int del;
-    SqList L, LL, L0;
+    SqList L;
     L.length = 0;
-    LL.length = 0;
     for (int i = 1; i <= 10; i++)
     {
         SqList_Insert(L, i, i);
-        SqList_Insert(LL, i, 2*i);
     }
-    SqList_Merge(L, LL, L0);
     printf("初始数组:\n");
-    SqList_Prt(L0);
+    SqList_Prt(L);
     // 操作函数
-    SqList_T8(L0, 10, 10);
+    T10(L, 5);
     printf("操作后的数组:\n");
-    SqList_Prt(L0);
+    SqList_Prt(L);
     return 0;
 }
